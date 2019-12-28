@@ -1,0 +1,56 @@
+ERROR: Install Intl PHP extension for XAMPP on Mac OS Catalina when running CakePHP
+-------------------------------------------------------------------------------------------------
+
+// This will download and install xcode developer tools and fix the problem.
+// Open Terminal, and run the following
+
+xcode-select --install
+
+-----------------------------------------------------------------------------------
+//Take note: You do not need Xcode, you can install only the Command Line Tools here
+// If the above alone doesn't do it, then also run:
+
+xcode-select --reset
+
+-----------------------------------------------------------------------------------
+//Check for Intl
+
+php -m | grep intl
+
+//Note: If you come across with warnings like: PHP Warning: PHP Startup: Unable to load dynamic library 
+‘/usr/local/opt/php71-intl/intl.so’ 
+//Disable the previous intl: 
+
+mv /usr/local/etc/php/7.1/conf.d/ext-intl.ini /usr/local/etc/php/7.1/conf.d/ext-intl.ini.disabled
+
+------------------------------------------------------------------------------------
+
+// Next download the version of PHP you use in XAMPP from php.net
+
+// Extract the specific tar.gz php version file using (I extracted it inside ~/Downloads/ folder)
+
+tar -xzvf php-x.x.xx.tar.gz
+
+
+//cd into the extracted folder
+
+cd php-7.1.31
+
+
+//change to subfolder ext/intl
+
+cd ext/intl/
+
+//Run these commands to build the extension
+
+/Applications/XAMPP/bin/phpize
+./configure --enable-intl --with-php-config=/Applications/XAMPP/bin/php-config --with-icu-dir=/Applications/XAMPP/xamppfiles/
+make
+sudo make install 
+
+
+//you can now delete all files you downloaded and also the extracted folders.
+
+-- Open /Applications/XAMPP/xamppfiles/etc/php.ini , and add extension=intl.so
+
+Restart your Apache using XAMPP GUI and it should work successfullu. You have to run these commands each time you install a new version of XAMPP.
